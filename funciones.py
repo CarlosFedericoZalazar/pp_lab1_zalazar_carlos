@@ -1,6 +1,8 @@
 from mostrar import *
 from validar import *
 
+
+
 def inicio_app_dt(lista_dt):    
     
     while True:
@@ -8,11 +10,11 @@ def inicio_app_dt(lista_dt):
         
         match seleccion_opcion():
             case '1':
-                pass
+                print('OPCION 1')
             case '2':
-                pass
+                print('OPCION 2')
             case '3':
-                pass
+                print('OPCION ')
             case '4':
                 pass
             case '5':
@@ -28,5 +30,9 @@ def inicio_app_dt(lista_dt):
 
 def seleccion_opcion():
     opcion_ok = False
-    opcion = input('Ingrese Opcion: ')
-    op_validado = validar_opcion(opcion)
+    while True:
+        opcion = input('Ingrese Opcion: ')
+        op_validado = validar_opcion_ingresada(opcion)
+
+def pause():
+    input('Presiones una tecla para continuar...')
