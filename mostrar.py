@@ -5,8 +5,20 @@ def mostrar_menu():
     imprimir_dato("""
     1) - Mostrar la lista de todos los jugadores del Dream Team. Con el formato:
         'Nombre Jugador - Posición'.
-    2) -
+    2) - Mostrar estadisticas de jugador seleccionado por indice.
     3) -""")
 
-def mostrar_un_jugador(dict_jugador):
-    pass
+def mostrar_jugador_posicion(dict_jugador:dict)->str:
+    """ recibe un diccionario jugador y da formato al nombre junto a la posicion
+    Args:
+        dict_jugador (dict): informacion de un jugador
+    Returns:
+        texto_formato (str): string formateado con nombre y posicion del jugador"""
+    texto_formato = '{0} - {1}'.format(dict_jugador['nombre'],dict_jugador['posicion'])
+    return texto_formato
+
+
+def mostrar_un_jugador(dict_jugador:dict)->str:
+    print('\tESTADISTICA DE JUGADOR: {0}\n'.format(dict_jugador['nombre'].upper()))
+    for estadistica in dict_jugador['estadisticas']:
+        print('{0}: {1}'.format(estadistica,dict_jugador['estadisticas'][estadistica]))
