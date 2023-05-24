@@ -8,3 +8,7 @@ def leer_json(path:str):
     with open(path, 'r', encoding="utf-8") as file:
         lista = json.load(file)
     return lista
+
+def guardar_archivo_csv(nombre,data):
+    with open('estadisticas\\'+nombre, 'w') as file:
+        file.write(data)

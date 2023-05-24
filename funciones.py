@@ -1,5 +1,6 @@
 from mostrar import *
 from validar import *
+from archivos import *
 import os
 
 def pause():
@@ -12,7 +13,7 @@ def separador():
     print('-'*70)
 
 def inicio_app_dt(lista_dt):    
-    
+    lista_check = [False,False,False]
     while True:
         clean()
         mostrar_menu()
@@ -22,13 +23,22 @@ def inicio_app_dt(lista_dt):
                 clean()
                 print('\t\t _____ LISTA JUGADORES _____\n')
                 listar_jugadores_dt(lista_dt)
+                lista_check[0] = True
                 pause()
             case '2':
                 clean()
                 print('\t\t _____ SELECCION DE JUGADOR _____\n')
-                seleccionar_jugador_por_indice(lista_dt)
+                estadisticas = seleccionar_jugador_por_indice(lista_dt)
+                lista_check[1] = True
             case '3':
-                print('OPCION ')
+                if lista_check[1]:
+                    print('\t\t _____ GUARDAR ARCHIVO _____\n')
+                    print(estadisticas)
+                    lista_check[2] = True
+                else:
+                    print('NO HA SELECCIONADO JUGADOR POR INDICE (OPCION 2)')
+                
+                pause()
             case '4':
                 pass
             case '5':
@@ -72,7 +82,13 @@ def seleccionar_jugador_por_indice(lista_dt:list):
             break
     clean()
     indice_jugador = int(indice_jugador)
-    mostrar_un_jugador(lista_dt['jugadores'][indice_jugador - 1])
-    pause()
+    texto_estadistica = mostrar_un_jugador(lista_dt['jugadores'][indice_jugador - 1])
+    # while True:
+    #     opcion_guardar = input('Desea guardar las estadisticas en un archivo? (S/N): ')
+
+    #     if opcion_ok:
+    guardar_archivo_csv('{0}.csv'.format(lista_dt['jugadores'][indice_jugador - 1]['nombre']),
+                                                                            texto_estadistica)
+    return texto_estadistica
 
     
