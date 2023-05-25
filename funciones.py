@@ -12,12 +12,13 @@ def clean():
 def separador():
     print('-'*70)
 
-def inicio_app_dt(dict_dt_jugadores):    
+def inicio_app_dt(dict_dt_jugadores: dict):
+    '''
+    '''    
     lista_check = [False,False,False]
     while True:
         clean()
-        mostrar_menu()
-        
+        mostrar_menu()        
         match seleccion_opcion():
             case '1':
                 clean()
@@ -85,10 +86,20 @@ def seleccionar_jugador_por_indice(lista_jugadores:list):
 
 def buscar_jugador(lista_jugador:list):
     
+    clean()
     print('Ingrese nombre del Jugador a buscar, o bien presiones "-" si desea salir.')
-    while True:    
+    while True:        
         nombre_jugador = input('Nombre a Buscar: ').capitalize()
+        nombre_ok = validar_es_palabra(nombre_jugador)
+        if nombre_ok or nombre_jugador == '-':
+            break
+        else:
+            print('Error, ha ingresado caracteres invalidos. Intente nuevamente.')
+            pause()
+            clean()
+    if not nombre_jugador == '-':
         nombre_ok = validar_busqueda_nombre(lista_jugador, nombre_jugador)
-        print(nombre_ok)
+        if not nombre_ok:
+             print('- NO HUBO COINCIDENCIAS EN SU BUSQUEDA -')
         pause()
-        break
+        #break

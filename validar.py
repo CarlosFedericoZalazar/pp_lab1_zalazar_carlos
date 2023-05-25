@@ -1,4 +1,5 @@
 import re
+from mostrar import *
 
 
 def validar_opcion_ingresada(opcion):
@@ -30,10 +31,19 @@ def validar_s_n(opcion:str)->bool:
     return opcion_ok
 
 def validar_busqueda_nombre(lista_jugadores:list, nombre_a_validar = '')->str:
+    """ Realiza una busqueda mediante la escritura parcial o completa de un nombre en la lista
+    recibida como parametro.
+    Args:
+        lista_jugadores (list): lista de jugadores
+        nombre_a_validar (str, optional): _description_. Defaults to ''.
+
+    Returns:
+        str: _description_    """
    
     patron = nombre_a_validar.lower()
     matches = 0
-    nombre_validado = 'sin coincidencias'
+    dict_nombre_encontrado = {}
+    nombre_validado = False
     for i in range(len(lista_jugadores)):
         texto_auxiliar = lista_jugadores[i]['nombre'].lower()
         if bool(re.search(patron,texto_auxiliar)):
@@ -41,6 +51,8 @@ def validar_busqueda_nombre(lista_jugadores:list, nombre_a_validar = '')->str:
             nombre_validado = lista_jugadores[i]['nombre']
             if matches == 1:                
                 lista_coincidencias = [lista_jugadores[i]['nombre']]
+                dict_nombre_encontrado = lista_jugadores[i]
+                nombre_validado = True
             else:
                 lista_coincidencias.append(lista_jugadores[i]['nombre'])
     if matches > 1:
@@ -49,7 +61,13 @@ def validar_busqueda_nombre(lista_jugadores:list, nombre_a_validar = '')->str:
             print(coincidencia)
         nombre_a_validar = input('Escriba el nombre completo seleccionado: ')
         nombre_validado = validar_busqueda_nombre(lista_jugadores,nombre_a_validar)
+    elif matches == 1:
+        mostrar_logros_jugador(dict_nombre_encontrado)
     return nombre_validado
 
-
-   
+def validar_es_palabra(dato):
+    patron = r'[a-zA-Z ]+'
+    es_palabra = False
+    if bool(re.match(patron,dato)):
+        es_palabra=True
+    return es_palabra   

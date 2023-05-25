@@ -1,3 +1,9 @@
+import os
+
+def clean():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def imprimir_dato(dato):
     print(dato)
 
@@ -20,6 +26,11 @@ def mostrar_jugador_posicion(dict_jugador:dict)->str:
 
 
 def mostrar_un_jugador(dict_jugador:dict)->str:
+    """ muestras estadisticas de un jugador
+    Args:
+        dict_jugador (dict): datos del jugador
+    Returns:
+        texto_estadistica (str): texto formateado con toda la informacion listada"""
     texto_estadistica = '{0},{1}'.format(dict_jugador['nombre'],
                                                           dict_jugador['posicion'])
     print('\tESTADISTICA DE JUGADOR: {0}\n'.format(dict_jugador['nombre'].upper()))
@@ -29,3 +40,12 @@ def mostrar_un_jugador(dict_jugador:dict)->str:
                                     dict_jugador['estadisticas'][estadistica])
     texto_estadistica += '\n'
     return texto_estadistica
+
+def mostrar_logros_jugador(dict_jugador:dict):
+    """ lista logros de un jugador recibido por parametr
+    Args:
+        dict_jugador (dict): datos del jugador"""
+    clean()
+    print('\tLOGROS DE {0}\n'.format(dict_jugador['nombre'].upper()))
+    for logro in dict_jugador['logros']:
+        print('* {0}'.format(logro))
