@@ -12,7 +12,7 @@ def clean():
 def separador():
     print('-'*70)
 
-def inicio_app_dt(lista_dt):    
+def inicio_app_dt(dict_dt_jugadores):    
     lista_check = [False,False,False]
     while True:
         clean()
@@ -22,23 +22,16 @@ def inicio_app_dt(lista_dt):
             case '1':
                 clean()
                 print('\t\t _____ LISTA JUGADORES _____\n')
-                listar_jugadores_dt(lista_dt)
+                listar_jugadores_dt(dict_dt_jugadores['jugadores'])
                 lista_check[0] = True
                 pause()
             case '2':
                 clean()
                 print('\t\t _____ SELECCION DE JUGADOR _____\n')
-                estadisticas = seleccionar_jugador_por_indice(lista_dt)
+                estadisticas = seleccionar_jugador_por_indice(dict_dt_jugadores['jugadores'])
                 lista_check[1] = True
             case '3':
-                if lista_check[1]:
-                    print('\t\t _____ GUARDAR ARCHIVO _____\n')
-                    print(estadisticas)
-                    lista_check[2] = True
-                else:
-                    print('NO HA SELECCIONADO JUGADOR POR INDICE (OPCION 2)')
-                
-                pause()
+                buscar_jugador(dict_dt_jugadores['jugadores'])
             case '4':
                 pass
             case '5':
@@ -60,35 +53,42 @@ def seleccion_opcion():
             break
     return opcion
 
-def listar_jugadores_dt(lista:list):
+def listar_jugadores_dt(lista_jugadores:list):
     """ lista jugadores con formato nombre y posicion
     Args:
         lista (list): lista datos de jugadores"""
-    
-    # for jugador in lista['jugadores']:
-    #     print(mostrar_jugador_posicion(jugador))
+    for indice in range(len(lista_jugadores)):
+        imprimir_dato('{0:>2}) {1}'.format(indice + 1, mostrar_jugador_posicion(lista_jugadores[indice])))
 
-    for indice in range(len(lista['jugadores'])):
-        imprimir_dato('{0:>2}) {1}'.format(indice + 1, mostrar_jugador_posicion(lista['jugadores'][indice])))
+def seleccionar_jugador_por_indice(lista_jugadores:list):
 
-
-def seleccionar_jugador_por_indice(lista_dt:list):
-   
-    listar_jugadores_dt(lista_dt)
+    listar_jugadores_dt(lista_jugadores)
     while True:
         indice_jugador = input('Ingrese indice de Jugador: ')
-        indice_ok = validar_indice(indice_jugador,len(lista_dt['jugadores']))
+        indice_ok = validar_indice(indice_jugador,len(lista_jugadores))
         if indice_ok:
             break
     clean()
     indice_jugador = int(indice_jugador)
-    texto_estadistica = mostrar_un_jugador(lista_dt['jugadores'][indice_jugador - 1])
-    # while True:
-    #     opcion_guardar = input('Desea guardar las estadisticas en un archivo? (S/N): ')
-
-    #     if opcion_ok:
-    guardar_archivo_csv('{0}.csv'.format(lista_dt['jugadores'][indice_jugador - 1]['nombre']),
+    texto_estadistica = mostrar_un_jugador(lista_jugadores[indice_jugador - 1])
+    while True:
+         opcion_guardar = input('\nDesea guardar las estadisticas en un archivo? (S/N): ')
+         opcion_ok = validar_s_n(opcion_guardar)
+         if opcion_ok:
+             break
+         else:
+             print('Error, caracter invalido. presiones S(si)/N(no)...')
+    if opcion_ok:
+        guardar_archivo_csv('{0}.csv'.format(lista_jugadores[indice_jugador - 1]['nombre']),
                                                                             texto_estadistica)
     return texto_estadistica
 
+def buscar_jugador(lista_jugador:list):
     
+    print('Ingrese nombre del Jugador a buscar, o bien presiones "-" si desea salir.')
+    while True:    
+        nombre_jugador = input('Nombre a Buscar: ').capitalize()
+        nombre_ok = validar_busqueda_nombre(lista_jugador, nombre_jugador)
+        print(nombre_ok)
+        pause()
+        break

@@ -20,11 +20,12 @@ def mostrar_jugador_posicion(dict_jugador:dict)->str:
 
 
 def mostrar_un_jugador(dict_jugador:dict)->str:
-    texto_estadistica = 'nombre: {0}\nposicion: {1}\n'.format(dict_jugador['nombre'],
+    texto_estadistica = '{0},{1}'.format(dict_jugador['nombre'],
                                                           dict_jugador['posicion'])
     print('\tESTADISTICA DE JUGADOR: {0}\n'.format(dict_jugador['nombre'].upper()))
     for estadistica in dict_jugador['estadisticas']:
         print('{0}: {1}'.format(estadistica,dict_jugador['estadisticas'][estadistica]))
-        texto_estadistica = texto_estadistica + '{0}: {1}\n'.format(estadistica,
+        texto_estadistica += ',{0}'.format(estadistica,
                                     dict_jugador['estadisticas'][estadistica])
+    texto_estadistica += '\n'
     return texto_estadistica
