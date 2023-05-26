@@ -40,15 +40,21 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 calcular_mostrar_promedio(dict_dt_jugadores['jugadores'])
                 pause()
             case '5':
-                verificar_jugador_salon_fama(dict_dt_jugadores['jugadores'])
-                
+                verificar_jugador_salon_fama(dict_dt_jugadores['jugadores'])                
             case '6':
-                pass
+                calcular_mostrar_cantidad_mayor_rebotes(dict_dt_jugadores['jugadores'], 'rebotes_totales')
             case '7':
+                calcular_mostrar_cantidad_mayor_rebotes(dict_dt_jugadores['jugadores'], 'porcentaje_tiros_de_campo')
+            case '8':
+                calcular_mostrar_cantidad_mayor_rebotes(dict_dt_jugadores['jugadores'], 'asistencias_totales')
+            case '9':
+                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'])
+            case '10':
                 pass
             case another:
                 print('Opcion equivocada')
                 break
+            
 
 def seleccion_opcion():
     opcion_ok = False
@@ -99,8 +105,6 @@ def buscar_jugador(lista_jugador:list):
             break
         else:
             print('Error, ha ingresado caracteres invalidos. Intente nuevamente.')
-            pause()
-            clean()
     if not nombre_jugador == '-':
         dict_nombre_jugador = validar_busqueda_nombre(lista_jugador, nombre_jugador)
         if len(dict_nombre_jugador) == 0:
@@ -153,4 +157,16 @@ def verificar_jugador_salon_fama(lista_jugadores):
     if not len(dict_jugador) == 0:
         mostrar_jugador_salon_fama(dict_jugador)
         pause()
-    
+
+def calcular_mostrar_cantidad_mayor_rebotes(lista_jugadores:list, key:str):
+    mayor_dato = calcular_mayor_dato(lista_jugadores,key)
+    clean()
+    key_formateada = key.replace('_',' ')
+    print('\t___ Jugador/es con mayor {0} ___\n'.format(key_formateada))
+    print('| {0:^15} | {1:^5} |'.format('NOMBRE', 'CANT.'))
+    mostrar_jugadores_mayor_dato(lista_jugadores,key,mayor_dato)
+    pause()
+    pass
+
+def ingresar_mostrar_mayor_promedio():
+    pass

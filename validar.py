@@ -9,7 +9,7 @@ def validar_opcion_ingresada(opcion:str)->bool:
     Returns:
         op_valida (bool): True si la opcion es valida, False caso contrario."""
     op_valida = False
-    patron = r'[1-5]{1}$'
+    patron = r'[1-8]{1}$'
     if bool(re.match(patron, opcion)):
         op_valida = True
     return op_valida

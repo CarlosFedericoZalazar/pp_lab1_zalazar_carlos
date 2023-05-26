@@ -1,10 +1,8 @@
 import os
 import re
 
-
 def clean():
     os.system('cls' if os.name == 'nt' else 'clear')
-
 
 def imprimir_dato(dato):
     print(dato)
@@ -18,7 +16,12 @@ def mostrar_menu():
     4) - Calcular y mostrar el promedio de puntos por partido de todo el equipo del Dream
          Team, ordenado por nombre de manera ascendente.
     5) - Permitir al usuario ingresar el nombre de un jugador y mostrar si ese jugador es
-         miembro del Salón de la Fama del Baloncesto.\n""")
+         miembro del Salón de la Fama del Baloncesto.
+    6) - Calcular y mostrar el jugador con la mayor cantidad de rebotes totales.
+    7) - Calcular y mostrar el jugador con el mayor porcentaje de tiros de campo.
+    8) - Calcular y mostrar el jugador con la mayor cantidad de asistencias totales.
+    9) - Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
+         más puntos por partido que ese valor.\n""")
 
 def mostrar_jugador_posicion(dict_jugador:dict)->str:
     """ recibe un diccionario jugador y da formato al nombre junto a la posicion
@@ -28,7 +31,6 @@ def mostrar_jugador_posicion(dict_jugador:dict)->str:
         texto_formato (str): string formateado con nombre y posicion del jugador"""
     texto_formato = '{0} - {1}'.format(dict_jugador['nombre'],dict_jugador['posicion'])
     return texto_formato
-
 
 def mostrar_un_jugador(dict_jugador:dict)->str:
     """ muestras estadisticas de un jugador
@@ -54,8 +56,7 @@ def mostrar_logros_jugador(dict_jugador:dict):
     if not dict_jugador == '':
         print('\tLOGROS DE {0}\n'.format(dict_jugador['nombre'].upper()))
         for logro in dict_jugador['logros']:
-            print('* {0}'.format(logro))
-        
+            print('* {0}'.format(logro))       
     
 
 def mostrar_promedio_por_partido(lista_jugadores):
@@ -77,5 +78,10 @@ def mostrar_jugador_salon_fama(dict_jugador):
         else:
             print('- NO FORMA PARTE DEL SALOON DE LA FAMA')
         
-
-
+def mostrar_jugadores_mayor_dato(lista_jugadores,key,dato):
+    maximo_jugador = []
+    for dict_jugador in lista_jugadores:
+        if dict_jugador['estadisticas'][key] == dato:
+            maximo_jugador.append(dict_jugador)
+    for jugador in maximo_jugador:
+        print('| {0:^15} | {1:^5} |'.format(jugador['nombre'], jugador['estadisticas'][key]))
