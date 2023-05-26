@@ -1,6 +1,7 @@
 from mostrar import *
 from validar import *
 from archivos import *
+from calculos import *
 import os
 
 def pause():
@@ -32,11 +33,15 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 estadisticas = seleccionar_jugador_por_indice(dict_dt_jugadores['jugadores'])
                 lista_check[1] = True
             case '3':
-                buscar_jugador(dict_dt_jugadores['jugadores'])
+                buscar_mostrar_logros(dict_dt_jugadores['jugadores'])
             case '4':
-                pass
+                clean()
+                print('\t\t _____ PROMEDIOS POR PARTIDO _____\n')
+                calcular_mostrar_promedio(dict_dt_jugadores['jugadores'])
+                pause()
             case '5':
-                pass
+                verificar_jugador_salon_fama(dict_dt_jugadores['jugadores'])
+                
             case '6':
                 pass
             case '7':
@@ -84,10 +89,9 @@ def seleccionar_jugador_por_indice(lista_jugadores:list):
                                                                             texto_estadistica)
     return texto_estadistica
 
-def buscar_jugador(lista_jugador:list):
-    
-    clean()
-    print('Ingrese nombre del Jugador a buscar, o bien presiones "-" si desea salir.')
+def buscar_jugador(lista_jugador:list):    
+    dict_nombre_jugador={}
+    print('\nIngrese nombre del Jugador a buscar, o bien presiones "-" si desea salir.')
     while True:        
         nombre_jugador = input('Nombre a Buscar: ').capitalize()
         nombre_ok = validar_es_palabra(nombre_jugador)
@@ -98,8 +102,55 @@ def buscar_jugador(lista_jugador:list):
             pause()
             clean()
     if not nombre_jugador == '-':
-        nombre_ok = validar_busqueda_nombre(lista_jugador, nombre_jugador)
-        if not nombre_ok:
+        dict_nombre_jugador = validar_busqueda_nombre(lista_jugador, nombre_jugador)
+        if len(dict_nombre_jugador) == 0:
              print('- NO HUBO COINCIDENCIAS EN SU BUSQUEDA -')
+             pause()
+    return dict_nombre_jugador
+
+def ordenamiento(lista:list,orden = True):
+    lista_aux = lista[:]
+    lista_de = []
+    lista_iz = []
+    if len(lista) <= 1:
+       return lista_aux
+    else:
+        pivot = lista_aux[0]
+        for elemento in lista_aux[1:]:
+            if elemento['nombre'] > pivot['nombre']:
+                lista_de.append(elemento)
+            else:
+                lista_iz.append(elemento)  
+   
+    lista_iz = ordenamiento(lista_iz,True)
+    lista_iz.append(pivot)
+    lista_de = ordenamiento(lista_de,True)
+    lista_iz.extend(lista_de)
+    return lista_iz
+
+def calcular_mostrar_promedio(lista_jugadores:list)->list:
+    """ calcula promedio de puntos por partido total del equipo, y muestra el de los jugadores
+    ordenados de manera alfabetica
+    Args:
+        lista_jugadores (list): lista de los jugadores
+    Returns:
+        list: _description_"""
+    lista_ordenada = ordenamiento(lista_jugadores)
+    mostrar_promedio_por_partido(lista_ordenada)
+    calcular_promedio_puntos_partido(lista_ordenada)
+    
+def buscar_mostrar_logros(lista_jugadores):
+    dict_jugador = buscar_jugador(lista_jugadores)
+    if not len(dict_jugador) == 0:
+        mostrar_logros_jugador(dict_jugador)
         pause()
-        #break
+
+def verificar_jugador_salon_fama(lista_jugadores):
+    clean()
+    listar_jugadores_dt(lista_jugadores)
+    dict_jugador = buscar_jugador(lista_jugadores)
+    separador()
+    if not len(dict_jugador) == 0:
+        mostrar_jugador_salon_fama(dict_jugador)
+        pause()
+    
