@@ -30,10 +30,9 @@ def mostrar_menu():
     13)- Calcular y mostrar el jugador con la mayor cantidad de bloqueos totales.
     14)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
          porcentaje de tiros libres superior a ese valor.
-    15)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
-         porcentaje de tiros libres superior a ese valor.
-    16)- Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al
-         jugador con la menor cantidad de puntos por partido. \n""")
+    15)- Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al
+         jugador con la menor cantidad de puntos por partido.
+    16)-  \n""")
 
 def mostrar_jugador_posicion(dict_jugador:dict)->str:
     """ recibe un diccionario jugador y da formato al nombre junto a la posicion
@@ -69,14 +68,11 @@ def mostrar_logros_jugador(dict_jugador:dict):
         print('\tLOGROS DE {0}\n'.format(dict_jugador['nombre'].upper()))
         for logro in dict_jugador['logros']:
             print('* {0}'.format(logro))       
-    
 
-def mostrar_promedio_por_partido(lista_jugadores):
-    print('| {0:^20} |  {1:^12} |'.format('Nom. Jugador', 'Prom.Ptos.Part.'))
-    print('-'* 43)
-    for jugador in lista_jugadores:
-        print('| {0:^20} |   {1:^12}   |'.format(jugador['nombre'], jugador['estadisticas']
-                                                        ['promedio_puntos_por_partido']))
+
+def mostrar_promedio_por_partido_jugador(dict_jugador):
+    print('| {0:^20} |   {1:^12}   |'.format(dict_jugador['nombre'],
+                        dict_jugador['estadisticas']['promedio_puntos_por_partido']))
 
 def mostrar_jugador_salon_fama(dict_jugador):
     clean()

@@ -70,7 +70,10 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
                                                 'porcentaje_tiros_de_campo',14)
             case '15':
-                pass
+                clean()
+                print('\t\t _____ PROMEDIOS POR PARTIDO EXCEPTO MINIMO _____\n')
+                calcular_mostrar_promedio_excepto_minimo(dict_dt_jugadores['jugadores'])
+                pause()
             case other:
                 print('Opcion equivocada')          
             
@@ -161,7 +164,11 @@ def calcular_mostrar_promedio(lista_jugadores:list)->list:
     Returns:
         list: _description_"""
     lista_ordenada = ordenamiento(lista_jugadores)
-    mostrar_promedio_por_partido(lista_ordenada)
+    print('| {0:^20} |  {1:^12} |'.format('Nom. Jugador', 'Prom.Ptos.Part.'))
+    print('-'* 43)    
+    for jugador in lista_jugadores:
+        mostrar_promedio_por_partido_jugador(jugador)
+    #mostrar_promedio_por_partido(lista_ordenada)
     calcular_promedio_puntos_partido(lista_ordenada)
     
 def buscar_mostrar_logros(lista_jugadores):
@@ -180,7 +187,7 @@ def verificar_jugador_salon_fama(lista_jugadores):
         pause()
 
 def calcular_mostrar_cantidad_mayor(lista_jugadores:list, key:str):
-    mayor_dato = calcular_mayor_dato(lista_jugadores,key)
+    mayor_dato = calcular_mayor_menor_dato(lista_jugadores,key)
     clean()
     key_formateada = key.replace('_',' ').upper()
     print('\t___ Jugador/es con mayor {0} ___\n'.format(key_formateada))
@@ -192,7 +199,7 @@ def calcular_mostrar_cantidad_mayor(lista_jugadores:list, key:str):
 def ingresar_mostrar_mayor_promedio(lista_jugadores:list, key:str, opcion):
     clean()
     print('\t\t__ OPCION {0} __\n'.format(opcion))
-    mayor_dato = calcular_mayor_dato(lista_jugadores,key)
+    mayor_dato = calcular_mayor_menor_dato(lista_jugadores,key)
     dato_usuario = input('Ingrese valor ({0} es el mayor numero):'.format(mayor_dato))
     numero_ok = validar_numero_a_parsear(dato_usuario)
     if numero_ok:
@@ -210,3 +217,17 @@ def ingresar_mostrar_mayor_promedio(lista_jugadores:list, key:str, opcion):
     else:
         print('- Error - Ha ingresado un digito invalido...')
         pause()
+
+def calcular_mostrar_promedio_excepto_minimo(lista_jugadores:list):
+    """ calcula promedio de puntos por partido total del equipo, y muestra el de los jugadores
+    ordenados de manera alfabetica
+    Args:
+        lista_jugadores (list): lista de los jugadores
+    Returns:
+        list: _description_"""
+    dato_minimo = calcular_mayor_menor_dato(lista_jugadores, 'promedio_puntos_por_partido', mayor = False)
+    print('| {0:^20} |  {1:^12} |'.format('Nom. Jugador', 'Prom.Ptos.Part.'))
+    print('-'* 43)    
+    #mostrar_promedio_por_partido(lista_jugadores)
+    calcular_promedio_puntos_partido(lista_jugadores, False, dato_minimo)
+    return
