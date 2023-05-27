@@ -8,7 +8,8 @@ def pause():
     input('\nPresiones una tecla para continuar...')
 
 def clean():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls') # 'clear' para Linux
+   
 
 def separador():
     print('-'*70)
@@ -42,27 +43,47 @@ def inicio_app_dt(dict_dt_jugadores: dict):
             case '5':
                 verificar_jugador_salon_fama(dict_dt_jugadores['jugadores'])                
             case '6':
-                calcular_mostrar_cantidad_mayor_rebotes(dict_dt_jugadores['jugadores'], 'rebotes_totales')
+                calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                             'rebotes_totales')
             case '7':
-                calcular_mostrar_cantidad_mayor_rebotes(dict_dt_jugadores['jugadores'], 'porcentaje_tiros_de_campo')
+                calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                   'porcentaje_tiros_de_campo')
             case '8':
-                calcular_mostrar_cantidad_mayor_rebotes(dict_dt_jugadores['jugadores'], 'asistencias_totales')
+                calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                         'asistencias_totales')
             case '9':
-                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'])
+                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
+                                               'promedio_puntos_por_partido',9)
             case '10':
+                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
+                                                            'robos_totales',10)
+            case '11':
+                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
+                                         'promedio_asistencias_por_partido',11)
+            case '12':
+                calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                             'rebotes_totales')
+            case '13':
+                calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                            'bloqueos_totales')
+            case '14':
+                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
+                                                'porcentaje_tiros_de_campo',14)
+            case '15':
                 pass
-            case another:
-                print('Opcion equivocada')
-                break
+            case other:
+                print('Opcion equivocada')          
             
 
 def seleccion_opcion():
-    opcion_ok = False
-    while True:
-        opcion = input('Ingrese Opcion: ')
-        op_validado = validar_opcion_ingresada(opcion)
-        if op_validado:
-            break
+    """ ingresa la opcion la opcion ingresada por el usuario
+    Returns:
+        opcion (str): opcion seleccionada, ya validada."""
+    opcion = input('Ingrese Opcion: ')
+    op_validado = validar_opcion_ingresada(opcion)
+    if not op_validado:
+        print('Ha ingresado un caracter invalido. Intente nuevamente...')
+        pause()
     return opcion
 
 def listar_jugadores_dt(lista_jugadores:list):
@@ -158,15 +179,34 @@ def verificar_jugador_salon_fama(lista_jugadores):
         mostrar_jugador_salon_fama(dict_jugador)
         pause()
 
-def calcular_mostrar_cantidad_mayor_rebotes(lista_jugadores:list, key:str):
+def calcular_mostrar_cantidad_mayor(lista_jugadores:list, key:str):
     mayor_dato = calcular_mayor_dato(lista_jugadores,key)
     clean()
-    key_formateada = key.replace('_',' ')
+    key_formateada = key.replace('_',' ').upper()
     print('\t___ Jugador/es con mayor {0} ___\n'.format(key_formateada))
-    print('| {0:^15} | {1:^5} |'.format('NOMBRE', 'CANT.'))
+    print('| {0:^20} | {1:^5} |'.format('NOMBRE', 'CANT.'))
     mostrar_jugadores_mayor_dato(lista_jugadores,key,mayor_dato)
     pause()
     pass
 
-def ingresar_mostrar_mayor_promedio():
-    pass
+def ingresar_mostrar_mayor_promedio(lista_jugadores:list, key:str, opcion):
+    clean()
+    print('\t\t__ OPCION {0} __\n'.format(opcion))
+    mayor_dato = calcular_mayor_dato(lista_jugadores,key)
+    dato_usuario = input('Ingrese valor ({0} es el mayor numero):'.format(mayor_dato))
+    numero_ok = validar_numero_a_parsear(dato_usuario)
+    if numero_ok:
+        dato_usuario = float(dato_usuario)
+        if dato_usuario < mayor_dato:
+            clean()
+            key_formateada = key.replace('_',' ').upper()
+            print('\t\t JUGADOR/ES CON MAYOR {0}\n'.format(key_formateada))
+            print('| {0:^20} | {1:^5} |'.format('NOMBRE', 'CANT.'))
+            mostrar_jugadores_mayor_dato(lista_jugadores, key, dato_usuario, True)
+            pause()
+        else:
+            print('NO HAY JUGADORES CON PROMEDIO MAYOR AL INGRESADO')
+            pause()
+    else:
+        print('- Error - Ha ingresado un digito invalido...')
+        pause()

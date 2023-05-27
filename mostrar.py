@@ -2,7 +2,7 @@ import os
 import re
 
 def clean():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls')
 
 def imprimir_dato(dato):
     print(dato)
@@ -21,7 +21,19 @@ def mostrar_menu():
     7) - Calcular y mostrar el jugador con el mayor porcentaje de tiros de campo.
     8) - Calcular y mostrar el jugador con la mayor cantidad de asistencias totales.
     9) - Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
-         más puntos por partido que ese valor.\n""")
+         más puntos por partido que ese valor.
+    10)- Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
+         más rebotes por partido que ese valor.
+    11)- Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
+         más asistencias por partido que ese valor.
+    12)- Calcular y mostrar el jugador con la mayor cantidad de robos totales.
+    13)- Calcular y mostrar el jugador con la mayor cantidad de bloqueos totales.
+    14)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
+         porcentaje de tiros libres superior a ese valor.
+    15)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
+         porcentaje de tiros libres superior a ese valor.
+    16)- Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al
+         jugador con la menor cantidad de puntos por partido. \n""")
 
 def mostrar_jugador_posicion(dict_jugador:dict)->str:
     """ recibe un diccionario jugador y da formato al nombre junto a la posicion
@@ -78,10 +90,19 @@ def mostrar_jugador_salon_fama(dict_jugador):
         else:
             print('- NO FORMA PARTE DEL SALOON DE LA FAMA')
         
-def mostrar_jugadores_mayor_dato(lista_jugadores,key,dato):
+def mostrar_jugadores_mayor_dato(lista_jugadores,key,dato, ingreso_usuario = False):
+    """ Crea una lista diccionario con los jugadores que cumplen con la condicion, mostrando
+    el de mayor dato, o mayor al dato ingresado por usuario.
+    Args:
+        lista_jugadores (list): lista de diccionarios de jugadores.
+        key (str): criterio referencia sobre lo cual se evaluara.
+        dato (int/float): valor base para evaluar
+        ingreso_usuario (bool, optional): True, si el dato base a evaluar lo ingreso un usuario,
+        False, si el dato surge del mayor valor de la lista"""
     maximo_jugador = []
     for dict_jugador in lista_jugadores:
-        if dict_jugador['estadisticas'][key] == dato:
+        if (dict_jugador['estadisticas'][key] == dato and ingreso_usuario == False) or\
+               (dict_jugador['estadisticas'][key] > dato and ingreso_usuario == True):
             maximo_jugador.append(dict_jugador)
     for jugador in maximo_jugador:
-        print('| {0:^15} | {1:^5} |'.format(jugador['nombre'], jugador['estadisticas'][key]))
+        print('| {0:^20} | {1:^5} |'.format(jugador['nombre'], jugador['estadisticas'][key]))

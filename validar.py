@@ -9,8 +9,9 @@ def validar_opcion_ingresada(opcion:str)->bool:
     Returns:
         op_valida (bool): True si la opcion es valida, False caso contrario."""
     op_valida = False
-    patron = r'[1-8]{1}$'
-    if bool(re.match(patron, opcion)):
+    # patron = r'[0-9]{2}$'
+    # if bool(re.match(patron, opcion)):
+    if opcion.isdigit():
         op_valida = True
     return op_valida
 
@@ -71,8 +72,25 @@ def validar_busqueda_nombre(lista_jugadores:list, nombre_a_validar:str)->dict:
     return dict_nombre_encontrado
 
 def validar_es_palabra(dato):
+    """ valida si un dato es palabra valida
+    Args:
+        dato (str): dato a validar
+    Returns:
+        es_palabra (bool): True si es palabra valida, False caso contrario."""
     patron = r'[a-zA-Z ]+'
     es_palabra = False
     if bool(re.match(patron,dato)):
         es_palabra=True
-    return es_palabra   
+    return es_palabra
+
+def validar_numero_a_parsear(numero)->bool:
+    """ verifica a traves de una expresion si el numero es float o entero, posible de castear
+    Args:
+        numero (str): numero a evaluar ingresado por usuario
+    Returns:
+        numero_ok (bool): True si es numero valido, False caso contrario."""
+    numero_ok = False
+    patron = r'^[0-9]+.[0-9]+$|[0-9]+$'
+    if bool(re.match(patron,numero)) and float(numero) > 0:
+        numero_ok = True
+    return numero_ok
