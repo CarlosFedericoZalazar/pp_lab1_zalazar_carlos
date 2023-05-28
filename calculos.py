@@ -38,3 +38,16 @@ def calcular_mayor_menor_dato(lista_jugadores, key, mayor = True):
 def calculo_promedio(numero,cantidad):
     promedio = numero / cantidad
     return promedio
+
+def calcular_mayor_logro(lista_jugadores:list)->int:
+    """ recibe una lista y establece la mayor cantidad de logros que tiene un jugador en la
+    lista
+    Args:
+        lista_jugadores (list): lista de diccionario de jugadores
+    Returns:
+        mayor_logro (int): mayor cabtidad de logros encontrada en la lista"""
+    mayor_logro = len(lista_jugadores[0]['logros'])
+    for jugador in lista_jugadores[1:]:
+        if mayor_logro < len(jugador['logros']):
+            mayor_logro = len(jugador['logros'])
+    return mayor_logro

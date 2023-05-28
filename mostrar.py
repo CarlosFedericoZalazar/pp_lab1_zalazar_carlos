@@ -8,7 +8,7 @@ def imprimir_dato(dato):
     print(dato)
 
 def mostrar_menu():
-    imprimir_dato("""\t\t _____ MENU PRINCIPAL DREAM TEAM _____\n
+    imprimir_dato("""\n\t\t _____ MENU PRINCIPAL DREAM TEAM _____\n
     1) - Mostrar la lista de todos los jugadores del Dream Team. Con el formato:
         'Nombre Jugador - Posición'.
     2) - Mostrar estadisticas de jugador seleccionado por indice.
@@ -63,7 +63,6 @@ def mostrar_logros_jugador(dict_jugador:dict):
     """ lista logros de un jugador recibido por parametr
     Args:
         dict_jugador (dict): datos del jugador"""
-    clean()
     if not dict_jugador == '':
         print('\tLOGROS DE {0}\n'.format(dict_jugador['nombre'].upper()))
         for logro in dict_jugador['logros']:
@@ -102,3 +101,9 @@ def mostrar_jugadores_mayor_dato(lista_jugadores,key,dato, ingreso_usuario = Fal
             maximo_jugador.append(dict_jugador)
     for jugador in maximo_jugador:
         print('| {0:^20} | {1:^5} |'.format(jugador['nombre'], jugador['estadisticas'][key]))
+    
+def mostrar_mayor_logro(lista_jugadores,mayor_logro):
+    for jugador in lista_jugadores:
+        if len(jugador['logros']) == mayor_logro:
+            mostrar_logros_jugador(jugador)
+            #print('-'*70)

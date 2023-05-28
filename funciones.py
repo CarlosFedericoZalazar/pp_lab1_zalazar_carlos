@@ -74,6 +74,8 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 print('\t\t _____ PROMEDIOS POR PARTIDO EXCEPTO MINIMO _____\n')
                 calcular_mostrar_promedio_excepto_minimo(dict_dt_jugadores['jugadores'])
                 pause()
+            case '16':
+                calcular_mostrar_mayor_logro(dict_dt_jugadores['jugadores'])
             case other:
                 print('Opcion equivocada')          
             
@@ -174,6 +176,7 @@ def calcular_mostrar_promedio(lista_jugadores:list)->list:
 def buscar_mostrar_logros(lista_jugadores):
     dict_jugador = buscar_jugador(lista_jugadores)
     if not len(dict_jugador) == 0:
+        clean()
         mostrar_logros_jugador(dict_jugador)
         pause()
 
@@ -200,7 +203,7 @@ def ingresar_mostrar_mayor_promedio(lista_jugadores:list, key:str, opcion):
     clean()
     print('\t\t__ OPCION {0} __\n'.format(opcion))
     mayor_dato = calcular_mayor_menor_dato(lista_jugadores,key)
-    dato_usuario = input('Ingrese valor ({0} es el mayor numero):'.format(mayor_dato))
+    dato_usuario = input('Ingrese valor ({0} mayor valor registrado):'.format(mayor_dato))
     numero_ok = validar_numero_a_parsear(dato_usuario)
     if numero_ok:
         dato_usuario = float(dato_usuario)
@@ -231,3 +234,11 @@ def calcular_mostrar_promedio_excepto_minimo(lista_jugadores:list):
     #mostrar_promedio_por_partido(lista_jugadores)
     calcular_promedio_puntos_partido(lista_jugadores, False, dato_minimo)
     return
+
+def calcular_mostrar_mayor_logro(lista_jugadores:list):
+    cantidad_mayor_logro = calcular_mayor_logro(lista_jugadores)
+    clean()
+    print('\t\t --- JUGADOR/ES CON MAYORES LOGROS ---\n')
+    mostrar_mayor_logro(lista_jugadores,cantidad_mayor_logro)
+    pause()
+    
