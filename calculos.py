@@ -51,3 +51,23 @@ def calcular_mayor_logro(lista_jugadores:list)->int:
         if mayor_logro < len(jugador['logros']):
             mayor_logro = len(jugador['logros'])
     return mayor_logro
+
+def ordenamiento(lista:list,key:str, orden = True):
+    lista_aux = lista[:]
+    lista_de = []
+    lista_iz = []
+    if len(lista) <= 1:
+       return lista_aux
+    else:
+        pivot = lista_aux[0]
+        for elemento in lista_aux[1:]:
+            if elemento[key] > pivot[key]:
+                lista_de.append(elemento)
+            else:
+                lista_iz.append(elemento)  
+   
+    lista_iz = ordenamiento(lista_iz,key,True)
+    lista_iz.append(pivot)
+    lista_de = ordenamiento(lista_de,key,True)
+    lista_iz.extend(lista_de)
+    return lista_iz

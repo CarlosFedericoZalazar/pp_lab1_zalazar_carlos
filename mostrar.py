@@ -32,7 +32,10 @@ def mostrar_menu():
          porcentaje de tiros libres superior a ese valor.
     15)- Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al
          jugador con la menor cantidad de puntos por partido.
-    16)-  \n""")
+    16)- Calcular y mostrar el jugador con la mayor cantidad de logros obtenidos.
+    17)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
+         porcentaje de tiros triples superior a ese valor.
+    18)- Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.\n""")
 
 def mostrar_jugador_posicion(dict_jugador:dict)->str:
     """ recibe un diccionario jugador y da formato al nombre junto a la posicion
@@ -106,4 +109,4 @@ def mostrar_mayor_logro(lista_jugadores,mayor_logro):
     for jugador in lista_jugadores:
         if len(jugador['logros']) == mayor_logro:
             mostrar_logros_jugador(jugador)
-            #print('-'*70)
+            

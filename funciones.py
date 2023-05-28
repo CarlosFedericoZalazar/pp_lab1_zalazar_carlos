@@ -19,7 +19,7 @@ def inicio_app_dt(dict_dt_jugadores: dict):
     '''    
     lista_check = [False,False,False]
     while True:
-        clean()
+        #clean()
         mostrar_menu()        
         match seleccion_opcion():
             case '1':
@@ -52,13 +52,13 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
                                                          'asistencias_totales')
             case '9':
-                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
+                ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
                                                'promedio_puntos_por_partido',9)
             case '10':
-                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
+                ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
                                                             'robos_totales',10)
             case '11':
-                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
+                ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
                                          'promedio_asistencias_por_partido',11)
             case '12':
                 calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
@@ -67,8 +67,8 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
                                                             'bloqueos_totales')
             case '14':
-                ingresar_mostrar_mayor_promedio(dict_dt_jugadores['jugadores'],
-                                                'porcentaje_tiros_de_campo',14)
+                ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
+                                                'porcentaje_tiros_libres',14)
             case '15':
                 clean()
                 print('\t\t _____ PROMEDIOS POR PARTIDO EXCEPTO MINIMO _____\n')
@@ -76,8 +76,17 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 pause()
             case '16':
                 calcular_mostrar_mayor_logro(dict_dt_jugadores['jugadores'])
+            case '17':
+                ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
+                                                'porcentaje_tiros_triples',17)
+            case '18':
+                calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                                  'temporadas')
+            case '19':
+                ingresar_valor_ordenar_mostrar(dict_dt_jugadores['jugadores'],
+                                                  'porcentaje_tiros_de_campo')
             case other:
-                print('Opcion equivocada')          
+                print('Opcion equivocada')               
             
 
 def seleccion_opcion():
@@ -138,25 +147,6 @@ def buscar_jugador(lista_jugador:list):
              pause()
     return dict_nombre_jugador
 
-def ordenamiento(lista:list,orden = True):
-    lista_aux = lista[:]
-    lista_de = []
-    lista_iz = []
-    if len(lista) <= 1:
-       return lista_aux
-    else:
-        pivot = lista_aux[0]
-        for elemento in lista_aux[1:]:
-            if elemento['nombre'] > pivot['nombre']:
-                lista_de.append(elemento)
-            else:
-                lista_iz.append(elemento)  
-   
-    lista_iz = ordenamiento(lista_iz,True)
-    lista_iz.append(pivot)
-    lista_de = ordenamiento(lista_de,True)
-    lista_iz.extend(lista_de)
-    return lista_iz
 
 def calcular_mostrar_promedio(lista_jugadores:list)->list:
     """ calcula promedio de puntos por partido total del equipo, y muestra el de los jugadores
@@ -165,10 +155,10 @@ def calcular_mostrar_promedio(lista_jugadores:list)->list:
         lista_jugadores (list): lista de los jugadores
     Returns:
         list: _description_"""
-    lista_ordenada = ordenamiento(lista_jugadores)
+    lista_ordenada = ordenamiento(lista_jugadores,'nombre')
     print('| {0:^20} |  {1:^12} |'.format('Nom. Jugador', 'Prom.Ptos.Part.'))
     print('-'* 43)    
-    for jugador in lista_jugadores:
+    for jugador in lista_ordenada:
         mostrar_promedio_por_partido_jugador(jugador)
     #mostrar_promedio_por_partido(lista_ordenada)
     calcular_promedio_puntos_partido(lista_ordenada)
@@ -199,7 +189,7 @@ def calcular_mostrar_cantidad_mayor(lista_jugadores:list, key:str):
     pause()
     pass
 
-def ingresar_mostrar_mayor_promedio(lista_jugadores:list, key:str, opcion):
+def ingresar_mostrar_mayor_promedio_porcentaje(lista_jugadores:list, key:str, opcion):
     clean()
     print('\t\t__ OPCION {0} __\n'.format(opcion))
     mayor_dato = calcular_mayor_menor_dato(lista_jugadores,key)
@@ -241,4 +231,7 @@ def calcular_mostrar_mayor_logro(lista_jugadores:list):
     print('\t\t --- JUGADOR/ES CON MAYORES LOGROS ---\n')
     mostrar_mayor_logro(lista_jugadores,cantidad_mayor_logro)
     pause()
-    
+
+def ingresar_valor_ordenar_mostrar(lista_jugadores,key):   
+    lista_ordenada = ordenamiento(lista_jugadores,'posicion')
+    ingresar_mostrar_mayor_promedio_porcentaje(lista_ordenada,'porcentaje_tiros_de_campo',19)
