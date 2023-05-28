@@ -85,6 +85,8 @@ def inicio_app_dt(dict_dt_jugadores: dict):
             case '19':
                 ingresar_valor_ordenar_mostrar(dict_dt_jugadores['jugadores'],
                                                   'porcentaje_tiros_de_campo')
+            case '20':
+                calcular_posicion_ranking_jugadores(dict_dt_jugadores['jugadores'])
             case other:
                 print('Opcion equivocada')               
             
@@ -235,3 +237,31 @@ def calcular_mostrar_mayor_logro(lista_jugadores:list):
 def ingresar_valor_ordenar_mostrar(lista_jugadores,key):   
     lista_ordenada = ordenamiento(lista_jugadores,'posicion')
     ingresar_mostrar_mayor_promedio_porcentaje(lista_ordenada,'porcentaje_tiros_de_campo',19)
+
+def calcular_posicion_ranking_jugadores(lista_jugadores:list):
+    clean()
+    print('\t\t --- TABLA RANKING JUGADORES DREAM TEAM ---\n')
+    print('{0}{1}{2}'.format('┌','─' * 66,'┐'))    
+    print('│ {0:^20} │ {1:^6} │ {2:^8} │ {3:^12} │ {4:^6} │'.format('Jugador','Puntos',
+                                                        'Rebotes','Asistencias','Robos'))
+    print('{0}{1}{2}'.format('├','─' * 66,'┤'))    
+    lista_puntos_ordenada = ordenamiento_estadistica(lista_jugadores,'puntos_totales')        
+    lista_rebotes_ordenada = ordenamiento_estadistica(lista_jugadores,'rebotes_totales')
+    lista_asistencia_ordenada = ordenamiento_estadistica(lista_jugadores,'asistencias_totales')
+    lista_robos_ordenada = ordenamiento_estadistica(lista_jugadores,'robos_totales')
+    tabla_str = obtener_rankings(lista_jugadores, lista_puntos_ordenada, lista_rebotes_ordenada,
+                                    lista_asistencia_ordenada, lista_robos_ordenada)
+    guardar_archivo_csv('ranking_jugadores.csv',tabla_str)
+    pause()
+    
+def constructor_lista_auxiliar(lista_jugadores, key):
+    lista_aux=[]
+    lista_jug = []
+    player = {}
+    for jugador in lista_jugadores:
+        print(jugador,'\n')
+        player['estadisticas'] = jugador['estadisticas'][key]
+        player['nombre'] = jugador['nombre']
+        lista_aux.append(player)
+        lista_jug.append(lista_aux)
+    return lista_jug

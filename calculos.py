@@ -1,5 +1,6 @@
 from mostrar import *
 
+
 def calcular_promedio_puntos_partido(lista_jugadores, total_equipo = True, min_dato=''):
     acumulador_puntos = 0
     cantidad_promedio = len(lista_jugadores)
@@ -71,3 +72,39 @@ def ordenamiento(lista:list,key:str, orden = True):
     lista_de = ordenamiento(lista_de,key,True)
     lista_iz.extend(lista_de)
     return lista_iz
+
+
+def ordenamiento_estadistica(lista, key):
+    lista_aux = lista[:]
+    lista_de = []
+    lista_iz = []
+    if len(lista) <= 1:
+       return lista_aux
+    else:
+        pivot = lista_aux[0]
+        for elemento in lista_aux[1:]:
+            if elemento['estadisticas'][key] < pivot['estadisticas'][key]:
+                lista_de.append(elemento)
+            else:
+                lista_iz.append(elemento)     
+    lista_iz = ordenamiento_estadistica(lista_iz,key)
+    lista_iz.append(pivot)
+    lista_de = ordenamiento_estadistica(lista_de,key)
+    lista_iz.extend(lista_de)
+    return lista_iz
+
+def obtener_rankings(lista_jugadores,lista_puntos_ordenada,lista_rebotes_ordenada,
+                                   lista_asistencia_ordenada, lista_robos_ordenada)->str:
+    texto_auxiliar = 'Jugador,Puntos,Rebotes,Asistencias,Robos\n'
+
+    for jugador in lista_jugadores:
+        ranking_puntos = lista_puntos_ordenada.index(jugador)+ 1
+        ranking_rebotes = lista_rebotes_ordenada.index(jugador) + 1
+        ranking_asistencia = lista_asistencia_ordenada.index(jugador) + 1 
+        ranking_robos = lista_robos_ordenada.index(jugador) + 1
+        mostrar_tabla_ranking_jugadores(jugador['nombre'],ranking_puntos,ranking_rebotes,
+                                                        ranking_asistencia,ranking_robos)
+        texto_auxiliar += '{0},{1},{2},{3},{4}\n'.format(jugador['nombre'],ranking_puntos,
+                                        ranking_rebotes,ranking_asistencia,ranking_robos)
+    print('{0}{1}{2}'.format('└','─' * 66,'┘'))
+    return texto_auxiliar

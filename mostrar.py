@@ -35,7 +35,11 @@ def mostrar_menu():
     16)- Calcular y mostrar el jugador con la mayor cantidad de logros obtenidos.
     17)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
          porcentaje de tiros triples superior a ese valor.
-    18)- Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.\n""")
+    18)- Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.
+    19)- Permitir al usuario ingresar un valor y mostrar los jugadores , ordenados por
+         posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a
+         ese valor.
+    20)- Calcular de cada jugador cuál es su posición en cada uno de los siguientes ranking.\n""")
 
 def mostrar_jugador_posicion(dict_jugador:dict)->str:
     """ recibe un diccionario jugador y da formato al nombre junto a la posicion
@@ -109,4 +113,9 @@ def mostrar_mayor_logro(lista_jugadores,mayor_logro):
     for jugador in lista_jugadores:
         if len(jugador['logros']) == mayor_logro:
             mostrar_logros_jugador(jugador)
-            
+
+def mostrar_tabla_ranking_jugadores(name,puntos,rebotes,asistencia,robos):
+    print('│ {0:^20} │ {1:^6} │ {2:^8} │ {3:^12} │ {4:^6} │'.format(name,puntos,rebotes,
+                                                                    asistencia,robos))
+    
+    pass
