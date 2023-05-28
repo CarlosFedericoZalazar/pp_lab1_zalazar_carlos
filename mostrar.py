@@ -8,6 +8,7 @@ def imprimir_dato(dato):
     print(dato)
 
 def mostrar_menu():
+    """ lista las opciones del menu principal"""
     imprimir_dato("""\n\t\t _____ MENU PRINCIPAL DREAM TEAM _____\n
     1) - Mostrar la lista de todos los jugadores del Dream Team. Con el formato:
         'Nombre Jugador - Posición'.
@@ -56,15 +57,17 @@ def mostrar_un_jugador(dict_jugador:dict)->str:
         dict_jugador (dict): datos del jugador
     Returns:
         texto_estadistica (str): texto formateado con toda la informacion listada"""
+    texto_cabecera = 'nombre,posicion'
     texto_estadistica = '{0},{1}'.format(dict_jugador['nombre'],
                                                           dict_jugador['posicion'])
     print('\tESTADISTICA DE JUGADOR: {0}\n'.format(dict_jugador['nombre'].upper()))
     for estadistica in dict_jugador['estadisticas']:
         print('{0}: {1}'.format(estadistica,dict_jugador['estadisticas'][estadistica]))
+        texto_cabecera += ',{0}'.format(estadistica)
         texto_estadistica += ',{0}'.format(estadistica,
                                     dict_jugador['estadisticas'][estadistica])
-    texto_estadistica += '\n'
-    return texto_estadistica
+    texto_final = '{0}\n{1}\n'.format(texto_cabecera,texto_estadistica)
+    return texto_final
 
 def mostrar_logros_jugador(dict_jugador:dict):
     """ lista logros de un jugador recibido por parametr
@@ -77,10 +80,16 @@ def mostrar_logros_jugador(dict_jugador:dict):
 
 
 def mostrar_promedio_por_partido_jugador(dict_jugador):
+    """ muestra el romedio de puntos por partidos de un jugador
+    Args:
+        dict_jugador (dict): datos del jugador"""
     print('| {0:^20} |   {1:^12}   |'.format(dict_jugador['nombre'],
                         dict_jugador['estadisticas']['promedio_puntos_por_partido']))
 
 def mostrar_jugador_salon_fama(dict_jugador):
+    """ imprime por consola, de corresponder, si el jugador forma parte del salon de la fama
+    Args:
+        dict_jugador (dict): datos del jugador"""
     clean()
     if not dict_jugador == '':
         patron = r'\bfama\b|\bFama\b'
@@ -109,13 +118,20 @@ def mostrar_jugadores_mayor_dato(lista_jugadores,key,dato, ingreso_usuario = Fal
     for jugador in maximo_jugador:
         print('| {0:^20} | {1:^5} |'.format(jugador['nombre'], jugador['estadisticas'][key]))
     
-def mostrar_mayor_logro(lista_jugadores,mayor_logro):
+def mostrar_mayor_logro(lista_jugadores:list,mayor_logro:str):
+    """ muestra en consola los jugadores que coinciden con el mayor logro recibido por
+     parametro"""
     for jugador in lista_jugadores:
         if len(jugador['logros']) == mayor_logro:
             mostrar_logros_jugador(jugador)
 
-def mostrar_tabla_ranking_jugadores(name,puntos,rebotes,asistencia,robos):
+def mostrar_tabla_ranking_jugadores(name:str,puntos:int,rebotes:int,asistencia:int,robos:int):
+    """ imprime en consola la posicion de cada jugador respecto a las distintas estadisticas
+    Args:
+        name (str): nobre del jugador
+        puntos (int): posicion en ranking de puntos
+        rebotes (int): posicion en ranking de rebotes
+        asistencia (int): posicion en ranking de asistencia
+        robos (int): posicion en ranking de robos"""
     print('│ {0:^20} │ {1:^6} │ {2:^8} │ {3:^12} │ {4:^6} │'.format(name,puntos,rebotes,
                                                                     asistencia,robos))
-    
-    pass

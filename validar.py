@@ -9,9 +9,7 @@ def validar_opcion_ingresada(opcion:str)->bool:
     Returns:
         op_valida (bool): True si la opcion es valida, False caso contrario."""
     op_valida = False
-    # patron = r'[0-9]{2}$'
-    # if bool(re.match(patron, opcion)):
-    if opcion.isdigit():
+    if opcion.isdigit() or opcion == '-':
         op_valida = True
     return op_valida
 
@@ -34,6 +32,11 @@ def validar_indice(indice:str,len_lista:int)->bool:
     return indice_ok
 
 def validar_s_n(opcion:str)->bool:
+    """ valida que el usuario halla ingresaado 's' o 'n' como opcion
+    Args:
+        opcion (str): opcion ingresada por el usuario
+    Returns:
+        opcion_ok (bool): True si resulta valida la operacion, False caso contrario"""
     opcion_ok = False
     patron = r'[sS]$|[nN]$'
     if bool(re.match(patron,opcion)):

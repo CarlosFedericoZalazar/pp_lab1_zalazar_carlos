@@ -1,7 +1,14 @@
 from mostrar import *
 
 
-def calcular_promedio_puntos_partido(lista_jugadores, total_equipo = True, min_dato=''):
+def calcular_promedio_puntos_partido(lista_jugadores:list, total_equipo = True, min_dato:float = 0):
+    """ calcula promedio de puntos por partido del equipo, o bien descartando a los que tengan
+    menor rendimiento segun criterio ingresado por parametro]
+    Args:
+        lista_jugadores (list): lista completa del equipo
+        total_equipo (bool, optional): True si la operacion es sobre el total del equipo, False
+        en caso de descratar a los de menor rendimiento.
+        min_dato (float): minimo dato promedio, en caso de no ser requerido default '0'."""
     acumulador_puntos = 0
     cantidad_promedio = len(lista_jugadores)
     for jugador in lista_jugadores:
@@ -65,7 +72,7 @@ def ordenamiento(lista:list,key:str, orden = True):
             if elemento[key] > pivot[key]:
                 lista_de.append(elemento)
             else:
-                lista_iz.append(elemento)  
+                lista_iz.append(elemento)
    
     lista_iz = ordenamiento(lista_iz,key,True)
     lista_iz.append(pivot)
@@ -93,10 +100,19 @@ def ordenamiento_estadistica(lista, key):
     lista_iz.extend(lista_de)
     return lista_iz
 
-def obtener_rankings(lista_jugadores,lista_puntos_ordenada,lista_rebotes_ordenada,
-                                   lista_asistencia_ordenada, lista_robos_ordenada)->str:
+def obtener_rankings(lista_jugadores:list,lista_puntos_ordenada:list,lista_rebotes_ordenada:list,
+                                lista_asistencia_ordenada:list, lista_robos_ordenada:list)->str:
+    """ obtiene la posicion en el ranking de los distintos jugadores
+    Args:
+        lista_jugadores (list): lista completa de los jugadore
+        lista_puntos_ordenada (list): lista ordenada ascendente por puntos
+        lista_rebotes_ordenada (list): lista ordenada ascendente por rebotes
+        lista_asistencia_ordenada (list): lista ordenada ascendente por asistencia
+        lista_robos_ordenada (list): lista ordenada ascendente por robos
+    Returns:
+        texto_auxiliar (str): retorna un texto con toda la informacion obtenida.
+    """
     texto_auxiliar = 'Jugador,Puntos,Rebotes,Asistencias,Robos\n'
-
     for jugador in lista_jugadores:
         ranking_puntos = lista_puntos_ordenada.index(jugador)+ 1
         ranking_rebotes = lista_rebotes_ordenada.index(jugador) + 1
