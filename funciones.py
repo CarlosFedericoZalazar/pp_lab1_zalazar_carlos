@@ -19,9 +19,10 @@ def inicio_app_dt(dict_dt_jugadores: dict):
     Args:
         dict_dt_jugadores (dict): diccionario con datos del equipo"""
     if dict_dt_jugadores:
+        data_save = '' 
         while True:
             #clean()
-            mostrar_menu()        
+            mostrar_menu()                   
             match seleccion_opcion():
                 case '1':
                     clean()
@@ -31,61 +32,69 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 case '2':
                     clean()
                     print('\t\t _____ SELECCION DE JUGADOR _____\n')
-                    seleccionar_jugador_por_indice(dict_dt_jugadores['jugadores'])
+                    data_save = seleccionar_jugador_por_indice(dict_dt_jugadores['jugadores'])
                 case '3':
-                    buscar_mostrar_logros(dict_dt_jugadores['jugadores'])
+                    if data_save:
+                        guardar_archivo_csv('ultima_busqueda_estadistica.csv',data_save)
+                        print('Se ha generado el archivo con exito.')
+                    else:
+                        print('Error, al menos debera ingresar una vez a la opcion 2.')
+                    pause()
                 case '4':
+                    buscar_mostrar_logros(dict_dt_jugadores['jugadores'])
+                case '5':
                     clean()
                     print('\t\t _____ PROMEDIOS POR PARTIDO _____\n')
                     calcular_mostrar_promedio(dict_dt_jugadores['jugadores'])
                     pause()
-                case '5':
-                    verificar_jugador_salon_fama(dict_dt_jugadores['jugadores'])                
                 case '6':
-                    calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
-                                                                'rebotes_totales')
+                    verificar_jugador_salon_fama(dict_dt_jugadores['jugadores'])                
                 case '7':
                     calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
-                                                    'porcentaje_tiros_de_campo')
+                                                                'rebotes_totales')
                 case '8':
                     calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
-                                                            'asistencias_totales')
+                                                    'porcentaje_tiros_de_campo')
                 case '9':
-                    ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
-                                                'promedio_puntos_por_partido',9)
+                    calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                            'asistencias_totales')
                 case '10':
                     ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
-                                                                'robos_totales',10)
+                                                'promedio_puntos_por_partido',10)
                 case '11':
                     ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
-                                            'promedio_asistencias_por_partido',11)
+                                                                'robos_totales',11)
                 case '12':
-                    calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
-                                                                'rebotes_totales')
+                    ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
+                                            'promedio_asistencias_por_partido',12)
                 case '13':
                     calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
-                                                                'bloqueos_totales')
+                                                                'rebotes_totales')
                 case '14':
-                    ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
-                                                    'porcentaje_tiros_libres',14)
+                    calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
+                                                                'bloqueos_totales')
                 case '15':
+                    ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
+                                                    'porcentaje_tiros_libres',15)
+                case '16':
                     clean()
                     print('\t\t _____ PROMEDIOS POR PARTIDO EXCEPTO MINIMO _____\n')
                     calcular_mostrar_promedio_excepto_minimo(dict_dt_jugadores['jugadores'])
                     pause()
-                case '16':
-                    calcular_mostrar_mayor_logro(dict_dt_jugadores['jugadores'])
                 case '17':
-                    ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
-                                                    'porcentaje_tiros_triples',17)
+                    calcular_mostrar_mayor_logro(dict_dt_jugadores['jugadores'])
                 case '18':
+                    ingresar_mostrar_mayor_promedio_porcentaje(dict_dt_jugadores['jugadores'],
+                                                    'porcentaje_tiros_triples',18)
+                case '19':
                     calcular_mostrar_cantidad_mayor(dict_dt_jugadores['jugadores'],
                                                                     'temporadas')
-                case '19':
+                case '20':
                     ingresar_valor_ordenar_mostrar(dict_dt_jugadores['jugadores'],
                                                     'porcentaje_tiros_de_campo')
-                case '20':
+                case '21':
                     calcular_posicion_ranking_jugadores(dict_dt_jugadores['jugadores'])
+                    pause()
                 case '-':
                     break
                 case other:
@@ -136,7 +145,7 @@ def seleccionar_jugador_por_indice(lista_jugadores:list):
              break
          else:
              print('Error, caracter invalido. presiones S(si)/N(no)...')
-    if opcion_ok:
+    if opcion_guardar.lower() == 's':
         guardar_archivo_csv('{0}.csv'.format(lista_jugadores[indice_jugador - 1]['nombre']),
                                                                             texto_estadistica)
     return texto_estadistica
@@ -161,7 +170,7 @@ def buscar_jugador(lista_jugador:list):
     if not nombre_jugador == '-':
         dict_nombre_jugador = validar_busqueda_nombre(lista_jugador, nombre_jugador)
         if len(dict_nombre_jugador) == 0:
-             print('- NO HUBO COINCIDENCIAS EN SU BUSQUEDA -')
+             print('- EL NOMBRE INGRESADO NO COINCIDE CON NINGUNO DE LOS JUGADORES REGISTRADOS -')
              pause()
     return dict_nombre_jugador
 
@@ -272,39 +281,3 @@ def ingresar_valor_ordenar_mostrar(lista_jugadores:list,key:str):
     lista_ordenada = ordenamiento(lista_jugadores,'posicion')
     ingresar_mostrar_mayor_promedio_porcentaje(lista_ordenada,key,19)
 
-def calcular_posicion_ranking_jugadores(lista_jugadores:list):
-    """ ordena los jugadores para introducirlos a la tabla de rankings y la muestra.
-    Genera un archivo csv con la informacion obtenida.
-    Args:
-        lista_jugadores (list): tipo de eestadistica a listar"""
-    clean()
-    print('\t\t --- TABLA RANKING JUGADORES DREAM TEAM ---\n')
-    print('{0}{1}{2}'.format('┌','─' * 66,'┐'))    
-    print('│ {0:^20} │ {1:^6} │ {2:^8} │ {3:^12} │ {4:^6} │'.format('Jugador','Puntos',
-                                                        'Rebotes','Asistencias','Robos'))
-    print('{0}{1}{2}'.format('├','─' * 66,'┤'))    
-    lista_puntos_ordenada = ordenamiento_estadistica(lista_jugadores,'puntos_totales') 
-    lista_rebotes_ordenada = ordenamiento_estadistica(lista_jugadores,'rebotes_totales')
-    lista_asistencia_ordenada = ordenamiento_estadistica(lista_jugadores,'asistencias_totales')
-    lista_robos_ordenada = ordenamiento_estadistica(lista_jugadores,'robos_totales')
-    tabla_str = obtener_rankings(lista_jugadores, lista_puntos_ordenada, lista_rebotes_ordenada,
-                                    lista_asistencia_ordenada, lista_robos_ordenada)
-    guardar_archivo_csv('ranking_jugadores.csv',tabla_str)
-    pause()
-
-
-
-# VER!!!
-
-
-# def constructor_lista_auxiliar(lista_jugadores, key):
-    
-#     lista_jug_auxiliar=[]
-    
-#     for jugador in lista_jugadores:
-#         dict_aux = {}        
-#         dict_aux['nombre'] = jugador['nombre']
-#         dict_aux[key] = jugador['estadisticas'][key]
-#         lista_jug_auxiliar.append(dict_aux)
-    
-#     return lista_jug_auxiliar

@@ -54,24 +54,21 @@ def validar_busqueda_nombre(lista_jugadores:list, nombre_a_validar:str)->dict:
     patron = nombre_a_validar.lower()
     matches = 0
     dict_nombre_encontrado = {}
-    #nombre_validado = False
     for i in range(len(lista_jugadores)):
         texto_auxiliar = lista_jugadores[i]['nombre'].lower()
         if bool(re.search(patron,texto_auxiliar)):
             matches += 1
-            #nombre_validado = lista_jugadores[i]['nombre']
             if matches == 1:                
-                lista_coincidencias = [lista_jugadores[i]['nombre']]
+                lista_coincidencias = [lista_jugadores[i]]
                 dict_nombre_encontrado = lista_jugadores[i]
-                #nombre_validado = True
             else:
-                lista_coincidencias.append(lista_jugadores[i]['nombre'])
+                lista_coincidencias.append(lista_jugadores[i])
     if matches > 1:
         print('Se encontraron {0} coincidencias'.format(matches))
         for coincidencia in lista_coincidencias:
-            print(coincidencia)
+            print(coincidencia['nombre'])
         nombre_a_validar = input('Escriba el nombre completo seleccionado: ')
-        dict_nombre_encontrado = validar_busqueda_nombre(lista_jugadores,nombre_a_validar)
+        dict_nombre_encontrado = validar_busqueda_nombre(lista_coincidencias,nombre_a_validar)
     return dict_nombre_encontrado
 
 def validar_es_palabra(dato):

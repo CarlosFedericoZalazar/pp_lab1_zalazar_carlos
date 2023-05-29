@@ -1,4 +1,5 @@
 from mostrar import *
+from archivos import *
 
 
 def calcular_promedio_puntos_partido(lista_jugadores:list, total_equipo = True, min_dato:float = 0):
@@ -60,7 +61,7 @@ def calcular_mayor_logro(lista_jugadores:list)->int:
             mayor_logro = len(jugador['logros'])
     return mayor_logro
 
-def ordenamiento(lista:list,key:str, orden = True):
+def ordenamiento(lista:list,key:str):
     lista_aux = lista[:]
     lista_de = []
     lista_iz = []
@@ -112,7 +113,7 @@ def obtener_rankings(lista_jugadores:list,lista_puntos_ordenada:list,lista_rebot
     Returns:
         texto_auxiliar (str): retorna un texto con toda la informacion obtenida.
     """
-    texto_auxiliar = 'Jugador,Puntos,Rebotes,Asistencias,Robos\n'
+    texto_auxiliar = 'Jugador;Puntos;Rebotes;Asistencias;Robos\n'
     for jugador in lista_jugadores:
         ranking_puntos = lista_puntos_ordenada.index(jugador)+ 1
         ranking_rebotes = lista_rebotes_ordenada.index(jugador) + 1
@@ -120,7 +121,27 @@ def obtener_rankings(lista_jugadores:list,lista_puntos_ordenada:list,lista_rebot
         ranking_robos = lista_robos_ordenada.index(jugador) + 1
         mostrar_tabla_ranking_jugadores(jugador['nombre'],ranking_puntos,ranking_rebotes,
                                                         ranking_asistencia,ranking_robos)
-        texto_auxiliar += '{0},{1},{2},{3},{4}\n'.format(jugador['nombre'],ranking_puntos,
+        texto_auxiliar += '{0};{1};{2};{3};{4}\n'.format(jugador['nombre'],ranking_puntos,
                                         ranking_rebotes,ranking_asistencia,ranking_robos)
     print('{0}{1}{2}'.format('└','─' * 66,'┘'))
     return texto_auxiliar
+
+def calcular_posicion_ranking_jugadores(lista_jugadores:list):
+    """ ordena los jugadores para introducirlos a la tabla de rankings y la muestra.
+    Genera un archivo csv con la informacion obtenida.
+    Args:
+        lista_jugadores (list): tipo de eestadistica a listar"""
+    clean()
+    print('\t\t --- TABLA RANKING JUGADORES DREAM TEAM ---\n')
+    print('{0}{1}{2}'.format('┌','─' * 66,'┐'))    
+    print('│ {0:^20} │ {1:^6} │ {2:^8} │ {3:^12} │ {4:^6} │'.format('Jugador','Puntos',
+                                                        'Rebotes','Asistencias','Robos'))
+    print('{0}{1}{2}'.format('├','─' * 66,'┤'))    
+    lista_puntos_ordenada = ordenamiento_estadistica(lista_jugadores,'puntos_totales') 
+    lista_rebotes_ordenada = ordenamiento_estadistica(lista_jugadores,'rebotes_totales')
+    lista_asistencia_ordenada = ordenamiento_estadistica(lista_jugadores,'asistencias_totales')
+    lista_robos_ordenada = ordenamiento_estadistica(lista_jugadores,'robos_totales')
+    tabla_str = obtener_rankings(lista_jugadores, lista_puntos_ordenada, lista_rebotes_ordenada,
+                                    lista_asistencia_ordenada, lista_robos_ordenada)
+    guardar_archivo_csv('ranking_jugadores.csv',tabla_str)
+    

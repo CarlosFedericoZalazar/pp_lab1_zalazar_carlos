@@ -13,34 +13,35 @@ def mostrar_menu():
     1) - Mostrar la lista de todos los jugadores del Dream Team. Con el formato:
         'Nombre Jugador - Posición'.
     2) - Mostrar estadisticas de jugador seleccionado por indice.
-    3) - Buscar un jugador por su nombre y mostrar sus logros.
-    4) - Calcular y mostrar el promedio de puntos por partido de todo el equipo del Dream
+    3) - Guardar las estadísticas del ultimo jugador seleccionado (Op.2) en un archivo CSV.
+    4) - Buscar un jugador por su nombre y mostrar sus logros.
+    5) - Calcular y mostrar el promedio de puntos por partido de todo el equipo del Dream
          Team, ordenado por nombre de manera ascendente.
-    5) - Permitir al usuario ingresar el nombre de un jugador y mostrar si ese jugador es
+    6) - Permitir al usuario ingresar el nombre de un jugador y mostrar si ese jugador es
          miembro del Salón de la Fama del Baloncesto.
-    6) - Calcular y mostrar el jugador con la mayor cantidad de rebotes totales.
-    7) - Calcular y mostrar el jugador con el mayor porcentaje de tiros de campo.
-    8) - Calcular y mostrar el jugador con la mayor cantidad de asistencias totales.
-    9) - Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
+    7) - Calcular y mostrar el jugador con la mayor cantidad de rebotes totales.
+    8) - Calcular y mostrar el jugador con el mayor porcentaje de tiros de campo.
+    9) - Calcular y mostrar el jugador con la mayor cantidad de asistencias totales.
+    10) - Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
          más puntos por partido que ese valor.
-    10)- Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
-         más rebotes por partido que ese valor.
     11)- Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
+         más rebotes por partido que ese valor.
+    12)- Permitir al usuario ingresar un valor y mostrar los jugadores que han promediado
          más asistencias por partido que ese valor.
-    12)- Calcular y mostrar el jugador con la mayor cantidad de robos totales.
-    13)- Calcular y mostrar el jugador con la mayor cantidad de bloqueos totales.
-    14)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
+    13)- Calcular y mostrar el jugador con la mayor cantidad de robos totales.
+    14)- Calcular y mostrar el jugador con la mayor cantidad de bloqueos totales.
+    15)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
          porcentaje de tiros libres superior a ese valor.
-    15)- Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al
+    16)- Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al
          jugador con la menor cantidad de puntos por partido.
-    16)- Calcular y mostrar el jugador con la mayor cantidad de logros obtenidos.
-    17)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
+    17)- Calcular y mostrar el jugador con la mayor cantidad de logros obtenidos.
+    18)- Permitir al usuario ingresar un valor y mostrar los jugadores que hayan tenido un
          porcentaje de tiros triples superior a ese valor.
-    18)- Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.
-    19)- Permitir al usuario ingresar un valor y mostrar los jugadores , ordenados por
+    19)- Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.
+    20)- Permitir al usuario ingresar un valor y mostrar los jugadores , ordenados por
          posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a
          ese valor.
-    20)- Calcular de cada jugador cuál es su posición en cada uno de los siguientes ranking.\n""")
+    21)- Calcular de cada jugador cuál es su posición en cada uno de los siguientes ranking.\n""")
 
 def mostrar_jugador_posicion(dict_jugador:dict)->str:
     """ recibe un diccionario jugador y da formato al nombre junto a la posicion
@@ -57,15 +58,14 @@ def mostrar_un_jugador(dict_jugador:dict)->str:
         dict_jugador (dict): datos del jugador
     Returns:
         texto_estadistica (str): texto formateado con toda la informacion listada"""
-    texto_cabecera = 'nombre,posicion'
-    texto_estadistica = '{0},{1}'.format(dict_jugador['nombre'],
+    texto_cabecera = 'nombre;posicion'
+    texto_estadistica = '{0};{1}'.format(dict_jugador['nombre'],
                                                           dict_jugador['posicion'])
     print('\tESTADISTICA DE JUGADOR: {0}\n'.format(dict_jugador['nombre'].upper()))
     for estadistica in dict_jugador['estadisticas']:
         print('{0}: {1}'.format(estadistica,dict_jugador['estadisticas'][estadistica]))
-        texto_cabecera += ',{0}'.format(estadistica)
-        texto_estadistica += ',{0}'.format(estadistica,
-                                    dict_jugador['estadisticas'][estadistica])
+        texto_cabecera += ';{0}'.format(estadistica)
+        texto_estadistica += ';{0}'.format(dict_jugador['estadisticas'][estadistica])
     texto_final = '{0}\n{1}\n'.format(texto_cabecera,texto_estadistica)
     return texto_final
 
