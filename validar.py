@@ -94,3 +94,26 @@ def validar_numero_a_parsear(numero)->bool:
     if bool(re.match(patron,numero)) and float(numero) > 0:
         numero_ok = True
     return numero_ok
+
+def verificar_all_star(lista_jugadores:list):
+    """ verifica dentro de la lista de diccionarios de jugadores quienes tienen como
+    logro alguna vez all Star.
+    Args:
+        lista_jugadores (list): lista diccionario de jugadores
+    Returns:
+        lista_aux (dict): lista con diccionarios de jugadores que tienen como logro
+    All-Star"""
+    
+    lista_aux = []
+    patron = r'All-Star'
+    patron_numerico = r'\d+'
+    for jugador in lista_jugadores:
+        for logro in jugador['logros']:
+            if re.search(patron,logro):
+               dict_aux = {}
+               dict_aux['nombre'] = jugador['nombre']
+               numero_all_star = re.findall(patron_numerico, logro)
+               dict_aux['logro'] = int(numero_all_star[0])
+               lista_aux.append(dict_aux)
+            
+    return lista_aux 

@@ -36,7 +36,7 @@ def calcular_mayor_menor_dato(lista_jugadores, key, mayor = True):
         lista_jugadores (list): lista de diccionarios de jugadores
         key (str): clave sobre la cual determinara el criterio de la operacion
     Returns:
-        dict_maximo (dict)_type_: diccionario del jugador con mayor valor encontrado"""
+        may_men_dato (int/float):  dato con el mayor/menor valor encontrado"""
     may_men_dato = lista_jugadores[0]['estadisticas'][key]
     for dict_jugadores in lista_jugadores:
         if (may_men_dato < dict_jugadores['estadisticas'][key] and mayor == True) or\
@@ -61,7 +61,7 @@ def calcular_mayor_logro(lista_jugadores:list)->int:
             mayor_logro = len(jugador['logros'])
     return mayor_logro
 
-def ordenamiento(lista:list,key:str):
+def ordenamiento(lista:list,key:str, orden_asc = True):
     lista_aux = lista[:]
     lista_de = []
     lista_iz = []
@@ -70,14 +70,15 @@ def ordenamiento(lista:list,key:str):
     else:
         pivot = lista_aux[0]
         for elemento in lista_aux[1:]:
-            if elemento[key] > pivot[key]:
+            if (elemento[key] > pivot[key] and orden_asc == True) or\
+                    (elemento[key] < pivot[key] and orden_asc == False):
                 lista_de.append(elemento)
             else:
                 lista_iz.append(elemento)
    
-    lista_iz = ordenamiento(lista_iz,key,True)
+    lista_iz = ordenamiento(lista_iz,key,orden_asc)
     lista_iz.append(pivot)
-    lista_de = ordenamiento(lista_de,key,True)
+    lista_de = ordenamiento(lista_de,key,orden_asc)
     lista_iz.extend(lista_de)
     return lista_iz
 
@@ -144,4 +145,43 @@ def calcular_posicion_ranking_jugadores(lista_jugadores:list):
     tabla_str = obtener_rankings(lista_jugadores, lista_puntos_ordenada, lista_rebotes_ordenada,
                                     lista_asistencia_ordenada, lista_robos_ordenada)
     guardar_archivo_csv('ranking_jugadores.csv',tabla_str)
+
+def calcular_posiciones(lista_jugadores):
+    dict_aux = {}
+    for jugador in  lista_jugadores:
+        if jugador['posicion'] in dict_aux:
+            dict_aux[jugador['posicion']] += 1
+        else:
+            dict_aux[jugador['posicion']] = 1
+    return dict_aux
+
+def calcular_mostrar_mayores_estadistica(lista_jugadores:list):
+    """calcula y muestra quien tiene la estadistica maxima, junto con el valor
+    Args:
+        lista_jugadores (list): lista con los diccionarios de los jugadores"""
+    print('\n\n\t\t --- MAXIMAS ESTADISTICAS EN JUGADORES ---\n')
+    for jugador in lista_jugadores:
+        for estadistica in jugador['estadisticas']:
+            maxima_estadistica = calcular_mayor_menor_dato(lista_jugadores, estadistica)
+            mostrar_maximo_estadistica(jugador, maxima_estadistica, estadistica)
+
+def promedio_estadistica(lista_jugadores:list):
+    """ calcula el promedio de los jugadores y los retorna en una lista con diccionario
+    el jugador
+    Args:
+        lista_jugadores (list): lista diccionario de los jugadores
+    Returns:
+        lista_aux (list): lista con nombre y promedio cd dxtadisticas de los jugadores"""
+    lista_aux = []    
+    for jugador in lista_jugadores:
+        acumulador = 0
+        dict_aux = {}
+        dict_aux['nombre'] = jugador['nombre']
+        for estadistica in jugador['estadisticas']:
+            acumulador += jugador['estadisticas'][estadistica]
+        promedio = acumulador / len(lista_jugadores)
+        dict_aux['promedio'] = promedio
+        lista_aux.append(dict_aux)
+    return lista_aux
+
     

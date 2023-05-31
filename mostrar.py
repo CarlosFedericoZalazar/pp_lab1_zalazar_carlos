@@ -41,7 +41,11 @@ def mostrar_menu():
     20)- Permitir al usuario ingresar un valor y mostrar los jugadores , ordenados por
          posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a
          ese valor.
-    21)- Calcular de cada jugador cuál es su posición en cada uno de los siguientes ranking.\n""")
+    21)- Calcular de cada jugador cuál es su posición en cada uno de los siguientes ranking.
+    22)- Determinar la cantidad de jugadores que hay por cada posición.
+    23)- Mostrar la lista de jugadores ordenadas por la cantidad de All-Star de forma descendente.
+    24)- Determinar qué jugador tiene las mejores estadísticas en cada valor.
+    25)- Determinar qué jugador tiene las mejores estadísticas de todos.\n""")
 
 def mostrar_jugador_posicion(dict_jugador:dict)->str:
     """ recibe un diccionario jugador y da formato al nombre junto a la posicion
@@ -135,3 +139,29 @@ def mostrar_tabla_ranking_jugadores(name:str,puntos:int,rebotes:int,asistencia:i
         robos (int): posicion en ranking de robos"""
     print('│ {0:^20} │ {1:^6} │ {2:^8} │ {3:^12} │ {4:^6} │'.format(name,puntos,rebotes,
                                                                     asistencia,robos))
+
+def mostrar_posicione(dict_posiciones:dict):
+    """ muestra la cantidad de jugadores en las distintas posiciones
+    """
+    for posicion in dict_posiciones:
+        print('{0}:{1}'.format(posicion, dict_posiciones[posicion]))
+
+def mostrar_miembros_all_star(lista_all_star):
+    """ muestra los jugadores junto con la cantidad de veces que jugaron para los all star
+    Args:
+        lista_all_star (_type_): lista diccionario de jugadores All-Star"""
+    for jugador in lista_all_star:
+        print('{0} ({1} veces All Star)'.format(jugador['nombre'], jugador['logro']))
+
+def mostrar_maximo_estadistica(dict_jugador:dict, maxima_estadistica,key_estadistica):
+    """ muestra al jugador y su estadistica maxima, junto con el valor.
+    Args:
+        dict_jugador (dict): diccionario del jugador del cual se encontro coincidencia con el
+    valor maximo. 
+        maxima_estadistica (int/float): del valor maximo de referencia a comprara con
+    los jugadores
+        key_estadistica (str): la estadistica base del jugador que se compara con el jugador"""
+    if maxima_estadistica == dict_jugador['estadisticas'][key_estadistica]:
+        key_estadistica = key_estadistica.replace("_", " ")
+        print('Mayor cantidad {0}: {1} ({2})'.format(key_estadistica, dict_jugador['nombre'],
+                                                                maxima_estadistica))

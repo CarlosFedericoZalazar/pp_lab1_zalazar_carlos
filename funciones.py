@@ -95,6 +95,18 @@ def inicio_app_dt(dict_dt_jugadores: dict):
                 case '21':
                     calcular_posicion_ranking_jugadores(dict_dt_jugadores['jugadores'])
                     pause()
+                case '22':
+                    calcular_mostrar_posiciones(dict_dt_jugadores['jugadores'])
+                    pause()
+                case '23':
+                    calcular_all_star(dict_dt_jugadores['jugadores'])
+                    pause()
+                case '24':
+                    calcular_mostrar_mayores_estadistica(dict_dt_jugadores['jugadores'])
+                    pause()
+                case '25':
+                    calcular_mostrar_jugador_mejor_estadistica(dict_dt_jugadores['jugadores'])
+                    pause()
                 case '-':
                     break
                 case other:
@@ -281,3 +293,29 @@ def ingresar_valor_ordenar_mostrar(lista_jugadores:list,key:str):
     lista_ordenada = ordenamiento(lista_jugadores,'posicion')
     ingresar_mostrar_mayor_promedio_porcentaje(lista_ordenada,key,19)
 
+def calcular_mostrar_posiciones(lista_jugadores):
+    clean()
+    print('\t\t --- CANTIDAD DE JUGADORES POR POSICION ---\n')
+    dict_posiciones = {}
+    dict_posiciones = calcular_posiciones(lista_jugadores)
+    mostrar_posicione(dict_posiciones)
+
+def calcular_all_star(lista_jugadores):
+    clean()
+    lista_all_star=[]
+    print('\t\t --- JUGADORES ALL-STAR ---\n')
+    lista_all_star = verificar_all_star(lista_jugadores)
+    lista_all_star_ordenada = ordenamiento(lista_all_star,'logro',False)
+    mostrar_miembros_all_star(lista_all_star_ordenada)
+
+def calcular_mostrar_jugador_mejor_estadistica(lista_jugadores:list):
+    """ calcula el promedio de estadisticas de los jugadores y luego muestra el mas alto
+    Args:
+        lista_jugadores (list): lista con diccionario de jugadores    """
+    clean()
+    print('\t\t --- JUGADOR CON MEJOR CARACTERISTICAS ---\n\n')
+    lista_promedios = []
+    lista_promedios = promedio_estadistica(lista_jugadores)    
+    lista_promedios_ordenada = ordenamiento(lista_promedios,'promedio',False)
+    imprimir_dato('* El jugador con mejor estadisticas por sobre todos es: {0}'.
+                                        format(lista_promedios_ordenada[0]['nombre']))

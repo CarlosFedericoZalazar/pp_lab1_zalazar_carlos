@@ -1,6 +1,5 @@
 from archivos import *
 from funciones import *
-from prueba import *
 
 lista_dt = leer_json('dt.json')
 if lista_dt:
